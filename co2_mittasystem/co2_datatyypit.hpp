@@ -66,15 +66,15 @@ static unsigned char SSEG_AIKA[] = {
 */
 typedef union {
     struct status {
-        unsigned int _rsv : 2;
         unsigned int co2_nok : 1;
         unsigned int co2_ok  : 1;
         unsigned int ilmankosteus_nok : 1;
         unsigned int ilmankosteus_ok  : 1;
         unsigned int lampotila_nok : 1;
         unsigned int lampotila_ok  : 1;
+        unsigned int _rsv : 2; // msb
     }status;
-    unsigned char data; // 8bit repr
+    uint8_t data; // 8bit repr
 }mittastatus_t;
 
 
@@ -158,5 +158,6 @@ void tuhoa_rajat(rajat_t*);
 
 void paivita_mittatulos(mittatulos_t*, uint8_t*);
 void paivita_mittastatus(mittatulos_t*, rajat_t*);
+void paivita_valot_viestiin(mittatulos_t*, viesti_t*);
 
 #endif

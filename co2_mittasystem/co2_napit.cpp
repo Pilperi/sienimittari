@@ -1,8 +1,9 @@
+#include <stdint.h>
 #include "co2_ui.hpp"
 #include "co2_napit.hpp"
 
 /* Tulkitsee napinpainallukset nykymoodin valossa */
-unsigned int tulkitse_painallus(unsigned char painallus, unsigned int moodi){
+uint16_t tulkitse_painallus(unsigned char painallus, uint16_t moodi){
     // Painallus ylös
     if(painallus & NAPPI_YLOS){
         // Oltiin muokkausmoodissa: kerrotaan että arvoa nostettava

@@ -3,9 +3,10 @@
 #ifndef _CO2_UI
 #define _CO2_UI
 
+#include <stdint.h>
 #include "co2_datatyypit.hpp"
 
-#define NAYTTOTAAJUUS 100
+#define NAYTTOTAAJUUS 2000
 #define RAJA_ASKEL_CO2 10
 #define RAJA_ASKEL_KOSTEUS 5
 #define RAJA_ASKEL_LAMPOTILA 1
@@ -32,6 +33,6 @@ enum NappiMoodit {
     MOODI_TALLENNA   = 1<<8
 };
 
-unsigned int ui_mainflow(unsigned int, viesti_t*, mittatulos_t*, rajat_t*);
-
+uint16_t ui_mainflow(uint16_t, viesti_t*, mittatulos_t*, rajat_t*, uint16_t*);
+uint16_t muokkaa_rajoja(uint16_t, rajat_t*);
 #endif

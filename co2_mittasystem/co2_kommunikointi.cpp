@@ -5,11 +5,19 @@ Kommunikaation itse funktiot
 #include "co2_kommunikointi.hpp"
 #include "co2_pinnit.hpp"
 
+/* Huudata latch-signaali niin valot vaihtuu stabiilisti */
+void latch(void){
+    digitalWrite(LATCH, LOW);
+    digitalWrite(LATCH, HIGH);
+    digitalWrite(LATCH, LOW);
+}
+
 /* Lähetä viesti: 3 8 bit lukuarvoa, älä välitä datan tulkkaamisesta */
 void laheta_viesti(viesti_t* viesti){
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_h);
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_m);
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_l);
+    latch();
     return;
 }
 

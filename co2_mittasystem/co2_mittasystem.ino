@@ -1,12 +1,15 @@
 #include <Arduino.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <Wire.h>
 #include "co2_datatyypit.hpp"
 #include "co2_pinnit.hpp"
 #include "co2_kommunikointi.hpp"
 #include "co2_ioexp.hpp"
+#include "co2_ui.hpp"
+#include "co2_napit.hpp"
 
-#define SENSORI 0
+#define SENSORI 1
 
 // SCD4x
 const int16_t SCD_ADDRESS = 0x62;
@@ -47,10 +50,10 @@ void loop() {
     // Tulos- ja statuswrapperi
     mittatulos_t* mittatulos = uusi_mittatulos();
     
-    unsigned int moodi = MOODI_NORMAALI;
+    uint16_t moodi = MOODI_NORMAALI;
     
     uint8_t data_in[12], laskuri;
-    unsigned int aikaa;
+    uint16_t aikaa;
     while(1){
       if(SENSORI){
           // Pyydä mittaustulosta
@@ -68,16 +71,21 @@ void loop() {
           // Tulokset inee
           paivita_mittatulos(mittatulos, data_in);
           paivita_mittastatus(mittatulos, rajat);
+          paivita_valot_viestiin(mittatulos, viesti);
       }
   
+      tulosta_valot(viesti);
       aikaa = 0;
       while(aikaa < 5000){
         if(digitalRead(INTERRUPT) == LOW){
             painettu_nappi = ioexp_lue();
             moodi = tulkitse_painallus(painettu_nappi, moodi);
-            moodi = ui_mainflow(moodi, viesti, mittatulos);
+            moodi = ui_mainflow(moodi, viesti, mittatulos, rajat, &aikaa);
         }
-        else{delay(1);aikaa++;}
+        else{
+           delay(1);
+           aikaa++;
+           }
     }
     }
     tuhoa_viesti(viesti);

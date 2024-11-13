@@ -5,6 +5,8 @@ Nappien operointi
 #ifndef _NAPIT
 #define _NAPIT
 
+#include <stdint.h>
+
 #define NAPPI_CO2       1<<0
 #define NAPPI_KOSTEUS   1<<1
 #define NAPPI_LAMPOTILA 1<<2
@@ -12,6 +14,6 @@ Nappien operointi
 #define NAPPI_ALAS      1<<4
 
 /* Tulkitse miten operointimoodin pitäisi muuttua kun nappia painetaan */
-unsigned int tulkitse_painallus(unsigned char, unsigned int);
+uint16_t tulkitse_painallus(unsigned char, uint16_t);
 
 #endif

@@ -61,6 +61,7 @@ void paivita_mittatulos(mittatulos_t* mtulos, uint8_t* lukuarvot){
 Vertaile mittatulosta mittasetupin rajoihin, ja täytä statuskentät oikein
 */
 void paivita_mittastatus(mittatulos_t* mtulos, rajat_t* rajat){
+    mtulos->mstatus.data = 0;
     // CO2 NOK
     if(mtulos->co2 >= rajat->co2_raja_huono){
         mtulos->mstatus.status.co2_nok = 1;
@@ -93,4 +94,9 @@ void paivita_mittastatus(mittatulos_t* mtulos, rajat_t* rajat){
         mtulos->mstatus.status.lampotila_ok = 1;
     }
     else{mtulos->mstatus.status.lampotila_ok = 0;}
+}
+
+void paivita_valot_viestiin(mittatulos_t* mtulos, viesti_t* viesti){
+    viesti->kentat.statusvalot = mtulos->mstatus.data;
+    return;
 }

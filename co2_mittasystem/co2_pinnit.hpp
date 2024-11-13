@@ -4,8 +4,8 @@
 
 #include <Arduino.h>
 
-#define FREE0       0  // nappi (näyttötyyppi)
-#define FREE1       1  // VAPAA
+#define FREE0       0  // VAPAA
+#define LATCH       1  // Valojen latchaus
 #define INTERRUPT   2  // IO-laajentimen interrupt
 #define SHIFT_CLK   3  // sreg kello
 #define I2C_DAT     4  // I2C data
