@@ -77,11 +77,18 @@ void loop() {
       tulosta_valot(viesti);
       aikaa = 0;
       while(aikaa < 5000){
+        // Nappia painettu, pitää reagoida
         if(digitalRead(INTERRUPT) == LOW){
+            painettu_nappi = ioexp_lue();
+            moodi = tulkitse_painallus(painettu_nappi, moodi);
+        }
+        // Jotain pitäis muuten vaan näyttää näytöllä
+        if(moodi & (MOODI_CO2|MOODI_KOSTEUS|MOODI_LAMPOTILA)){
             painettu_nappi = ioexp_lue();
             moodi = tulkitse_painallus(painettu_nappi, moodi);
             moodi = ui_mainflow(moodi, viesti, mittatulos, rajat, &aikaa);
         }
+        // Mitään ei tapahdu
         else{
            delay(1);
            aikaa++;

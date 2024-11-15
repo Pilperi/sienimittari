@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include "co2_datatyypit.hpp"
 
-#define NAYTTOTAAJUUS 2000
+#define NAYTTOTAAJUUS 500
 #define RAJA_ASKEL_CO2 10
 #define RAJA_ASKEL_KOSTEUS 5
 #define RAJA_ASKEL_LAMPOTILA 1

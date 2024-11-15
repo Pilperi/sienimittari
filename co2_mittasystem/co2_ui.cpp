@@ -2,6 +2,10 @@
 #include "co2_kommunikointi.hpp"
 #include <stdint.h>
 
+/* Tallennat rajat EEPROMille TODO*/
+void tallenna_rajat(rajat_t* rajat){
+    return;
+}
 
 /* Pääfunktio, joka tarkastaa mitä pitäisi tehdä */
 uint16_t ui_mainflow(uint16_t moodi, viesti_t* viesti, mittatulos_t* mittatulos, rajat_t* rajat, uint16_t* aikaa){
@@ -21,19 +25,62 @@ uint16_t ui_mainflow(uint16_t moodi, viesti_t* viesti, mittatulos_t* mittatulos,
         else if(moodi & MOODI_LAMPOTILA){
             *aikaa += tulosta_lukua(mittatulos->lampotila, viesti, NAYTTOTAAJUUS);
             }
+        return(moodi);
     }
     // Rajojen muokkaaminen, katsotaan mitä rajaa ja minne päin
     if(moodi & MOODI_MUOKKAA){
         if(moodi & MOODI_CO2){
-            moodi = muokkaa_rajoja(moodi, rajat);
+            // Muokkaus
+            if(moodi & (MOODI_PLUS|MOODI_MIINUS)){
+                moodi = muokkaa_rajoja(moodi, rajat);
+            }
+            // Pelkkä rajan näyttö
+            else{
+                if(moodi & MOODI_YLARAJA){
+                    *aikaa += tulosta_lukua(rajat->co2_raja_huono, viesti, NAYTTOTAAJUUS);
+                }
+                else{
+                    *aikaa += tulosta_lukua(rajat->co2_raja_hyva, viesti, NAYTTOTAAJUUS);
+                }
+            }
+            }
+        else if(moodi & MOODI_KOSTEUS){
+            // Muokkaus
+            if(moodi & (MOODI_PLUS|MOODI_MIINUS)){
+                moodi = muokkaa_rajoja(moodi, rajat);
+            }
+            // Pelkkä rajan näyttö
+            else{
+                if(moodi & MOODI_YLARAJA){
+                    *aikaa += tulosta_lukua(rajat->ilmankosteus_raja_hyva, viesti, NAYTTOTAAJUUS);
+                }
+                else{
+                    *aikaa += tulosta_lukua(rajat->ilmankosteus_raja_huono, viesti, NAYTTOTAAJUUS);
+                }
             }
         }
-        if(moodi & MOODI_KOSTEUS){
-            moodi = muokkaa_rajoja(moodi, rajat);
+        else if(moodi & MOODI_LAMPOTILA){
+            // Muokkaus
+            if(moodi & (MOODI_PLUS|MOODI_MIINUS)){
+                moodi = muokkaa_rajoja(moodi, rajat);
+            }
+            // Pelkkä rajan näyttö
+            else{
+                if(moodi & MOODI_YLARAJA){
+                    *aikaa += tulosta_lukua(rajat->lampotila_raja_huono, viesti, NAYTTOTAAJUUS);
+                }
+                else{
+                    *aikaa += tulosta_lukua(rajat->lampotila_raja_hyva, viesti, NAYTTOTAAJUUS);
+                }
+            }
         }
-        if(moodi & MOODI_LAMPOTILA){
-            moodi = muokkaa_rajoja(moodi, rajat);
-        }
+    return(moodi);
+    }
+    // Tallenna muokatut rajat
+    if(moodi & MOODI_TALLENNA){
+        tallenna_rajat(rajat);
+        moodi = MOODI_NORMAALI;
+    }
     return(moodi);
 }
 
