@@ -1,0 +1,12 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "footprints")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/SN74HC164DR/footprints.pretty")(options "")(descr ""))
+  (lib (name "sienikomponentit")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/sienikomponentit.pretty")(options "")(descr ""))
+  (lib (name "TS02_66_70_BK_160_LCR_D")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/TS02_66_70_BK_160_LCR_D")(options "")(descr ""))
+  (lib (name "742C163103JP")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/742C163103JP")(options "")(descr ""))
+  (lib (name "XIAO")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/XIAO")(options "")(descr ""))
+  (lib (name "ATTINY85_20PU")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/ATTINY85_20PU")(options "")(descr ""))
+  (lib (name "RNCP0805FTD1K00")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/RNCP0805FTD1K00")(options "")(descr ""))
+  (lib (name "AZ1117IH-3.3TRG1")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/AZ1117IH_3_3TRG1")(options "")(descr ""))
+  (lib (name "74AC373PC")(type "KiCad")(uri "C:/Users/jouni/Documents/Piirilevyt/2024-11-05 Sienikontrolleri/Komponentit/74AC373PC")(options "")(descr ""))
+)
