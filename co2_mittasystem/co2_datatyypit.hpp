@@ -49,7 +49,7 @@ static unsigned char SSEG_NUMERO[] = {
 
 // Aktiivisten segmenttien määrä (annetaan armoa hastaville)
 static unsigned char SSEG_AIKA[] = {
-  9+HIDASTUS, // 0 (6)
+  8+HIDASTUS, // 0 (6)
   4+HIDASTUS, // 1 (2)
   7+HIDASTUS, // 2 (5)
   5+HIDASTUS, // 3 (2)
@@ -57,7 +57,7 @@ static unsigned char SSEG_AIKA[] = {
   7+HIDASTUS, // 5 (5)
   7+HIDASTUS, // 6 (5)
   5+HIDASTUS, // 7 (3)
-  10+HIDASTUS, // 8 (7)
+  9+HIDASTUS, // 8 (7)
   7+HIDASTUS, // 9 (5)
 };
 
