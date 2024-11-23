@@ -7,6 +7,8 @@ koska alkoi olla inosssa täyttä...
 
 #include <stdint.h>
 
+#define HIDASTUS 0
+
 #define SSEG_A 1<<0
 #define SSEG_B 1<<1
 #define SSEG_C 1<<2
@@ -14,7 +16,7 @@ koska alkoi olla inosssa täyttä...
 #define SSEG_E 1<<4
 #define SSEG_F 1<<5
 #define SSEG_G 1<<6
-#define SSEG_DP 1<<7 // Ei käytössä, kaapattu valintavaloksi
+#define SSEG_DP 1<<7
 
 #define SSEG_NULL 0xFF
 #define SSEG_0 (0xFF^(SSEG_G|SSEG_DP))
@@ -47,16 +49,16 @@ static unsigned char SSEG_NUMERO[] = {
 
 // Aktiivisten segmenttien määrä (annetaan armoa hastaville)
 static unsigned char SSEG_AIKA[] = {
-  9, // 0 (6)
-  4, // 1 (2)
-  7, // 2 (5)
-  5, // 3 (2)
-  5, // 4 (4)
-  7, // 5 (5)
-  7, // 6 (5)
-  5, // 7 (3)
-  10, // 8 (7)
-  7, // 9 (5)
+  9+HIDASTUS, // 0 (6)
+  4+HIDASTUS, // 1 (2)
+  7+HIDASTUS, // 2 (5)
+  5+HIDASTUS, // 3 (2)
+  5+HIDASTUS, // 4 (4)
+  7+HIDASTUS, // 5 (5)
+  7+HIDASTUS, // 6 (5)
+  5+HIDASTUS, // 7 (3)
+  10+HIDASTUS, // 8 (7)
+  7+HIDASTUS, // 9 (5)
 };
 
 
@@ -72,7 +74,8 @@ typedef union {
         unsigned int ilmankosteus_ok  : 1;
         unsigned int lampotila_nok : 1;
         unsigned int lampotila_ok  : 1;
-        unsigned int _rsv : 2; // msb
+        unsigned int ctrl_nok : 1;
+        unsigned int ctrl_ok : 1; // msb
     }status;
     uint8_t data; // 8bit repr
 }mittastatus_t;

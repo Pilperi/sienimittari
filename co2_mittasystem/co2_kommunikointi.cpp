@@ -17,7 +17,6 @@ void laheta_viesti(viesti_t* viesti){
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_h);
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_m);
     shiftOut(SHIFT_DAT, SHIFT_CLK, MSBFIRST, viesti->tavut.tavut_l);
-    latch();
     return;
 }
 
@@ -26,6 +25,7 @@ uint16_t tulosta_lukua(uint16_t arvo, viesti_t* viesti, uint16_t aikaa){
     while(aikaa_kulunut <= aikaa){
         aikaa_kulunut += tulosta_arvo(arvo, viesti);
     }
+    tulosta_valot(viesti); // Tyhjää ruutu
     return(aikaa_kulunut);
 }
 
@@ -62,7 +62,7 @@ unsigned char tulosta_arvo(uint16_t arvo, viesti_t* viesti){
         aikaa += SSEG_AIKA[dig_arvo];
         }
     // Ykköset aina: nolla muodossa 0 eikä tyhjänä ruutuna
-    dig_arvo = (unsigned char)(arvo)%10;
+    dig_arvo = (unsigned char)(arvo%10);
     viesti->kentat.digit_no = DIG_1;
     viesti->kentat.numero = SSEG_NUMERO[dig_arvo];
     laheta_viesti(viesti);
@@ -75,7 +75,7 @@ unsigned char tulosta_arvo(uint16_t arvo, viesti_t* viesti){
 /* Tulosta vain valot mutta älä mitään ruudulle */
 void tulosta_valot(viesti_t* viesti){
     viesti->kentat.digit_no = DIG_NULL;
-    viesti->kentat.numero = SSEG_NULL;
     laheta_viesti(viesti);
+    latch();
     return;
 }
