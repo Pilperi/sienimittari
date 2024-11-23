@@ -44,7 +44,6 @@ void setup() {
 
         // Odotetaan ensimmäistä mittausta, tehdään vaikka testi odotellessa
         testi();
-        delay(5000);
     }
 }
 

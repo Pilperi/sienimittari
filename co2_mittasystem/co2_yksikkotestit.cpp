@@ -105,5 +105,6 @@ void testaa_numerotulostus(viesti_t* viesti){
         }
         viesti->kentat.statusvalot = ~(viesti->kentat.statusvalot);
     }
+    tyhjaa_ruutu(viesti);
     return;
 }

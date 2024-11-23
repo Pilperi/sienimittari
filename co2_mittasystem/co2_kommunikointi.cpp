@@ -71,11 +71,14 @@ unsigned char tulosta_arvo(uint16_t arvo, viesti_t* viesti){
     return(aikaa);
 }
 
+void tyhjaa_ruutu(viesti_t* viesti){
+    viesti->kentat.digit_no = DIG_NULL;
+    laheta_viesti(viesti);
+}
 
 /* Tulosta vain valot mutta älä mitään ruudulle */
 void tulosta_valot(viesti_t* viesti){
-    viesti->kentat.digit_no = DIG_NULL;
-    laheta_viesti(viesti);
+    tyhjaa_ruutu(viesti);
     latch();
     return;
 }

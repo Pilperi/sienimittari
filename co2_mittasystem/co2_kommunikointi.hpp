@@ -25,6 +25,8 @@ void tulosta_valot(viesti_t*);
 unsigned char tulosta_arvo(uint16_t, viesti_t*);
 /* Tulosta lukua n ms */
 uint16_t tulosta_lukua(uint16_t, viesti_t*, uint16_t);
+/* Tyhjennä seitsensegmenttiruutu lukuarvoista */
+void tyhjaa_ruutu(viesti_t*);
 /* Latchaa signaalivalot */
 void latch(void);
 
