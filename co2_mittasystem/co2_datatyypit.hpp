@@ -6,6 +6,7 @@ koska alkoi olla inosssa täyttä...
 #define SIENIMITTARI_TYYPIT
 
 #include <stdint.h>
+#include "co2_logging.h"
 
 #define HIDASTUS 0
 

@@ -4,6 +4,7 @@ Mittasysteemin datatyyppien händläilyfunktiot sun muut.
 
 #include <stdlib.h>
 #include "co2_datatyypit.hpp"
+extern unsigned char SENSORI;
 
 /* Luonti- ja tuhoamisfunktiot */
 viesti_t* uusi_viesti(){
@@ -65,35 +66,67 @@ void paivita_mittastatus(mittatulos_t* mtulos, rajat_t* rajat){
     // CO2 NOK
     if(mtulos->co2 >= rajat->co2_raja_huono){
         mtulos->mstatus.status.co2_nok = 1;
+        serialLogPari("CO2 NOK: ", mtulos->co2, ">", rajat->co2_raja_huono);
     }
-    else{mtulos->mstatus.status.co2_nok = 0;}
+    else{
+        mtulos->mstatus.status.co2_nok = 0;
+        serialLogPari("CO2 ei-huono: ", mtulos->co2, "<", rajat->co2_raja_huono);
+    }
     // CO2 OK
     if(mtulos->co2 < rajat->co2_raja_hyva){
         mtulos->mstatus.status.co2_ok = 1;
+        serialLogPari("CO2 OK: ", mtulos->co2, "<", rajat->co2_raja_hyva);
     }
-    else{mtulos->mstatus.status.co2_ok = 0;}
-    
+    else{
+        mtulos->mstatus.status.co2_ok = 0;
+        serialLogPari("CO2 ei-hyvä: ", mtulos->co2, ">", rajat->co2_raja_hyva);
+    }
     // Ilmankosteus NOK
     if(mtulos->ilmankosteus < rajat->ilmankosteus_raja_huono){
         mtulos->mstatus.status.ilmankosteus_nok = 1;
+        serialLogPari("HUM NOK: ", mtulos->ilmankosteus, ">", rajat->ilmankosteus_raja_huono);
     }
-    else{mtulos->mstatus.status.ilmankosteus_nok = 0;}
+    else{
+        mtulos->mstatus.status.ilmankosteus_nok = 0;
+        serialLogPari("HUM ei-huono: ", mtulos->ilmankosteus, "<", rajat->ilmankosteus_raja_huono);
+    }
     // Ilmankosteus OK
     if(mtulos->ilmankosteus >= rajat->ilmankosteus_raja_hyva){
         mtulos->mstatus.status.ilmankosteus_ok = 1;
+        serialLogPari("HUM OK: ", mtulos->ilmankosteus, ">", rajat->ilmankosteus_raja_hyva);
     }
-    else{mtulos->mstatus.status.ilmankosteus_ok = 0;}
-    
+    else{
+        mtulos->mstatus.status.ilmankosteus_ok = 0;
+        serialLogPari("HUM ei-hyvä: ", mtulos->ilmankosteus, "<", rajat->ilmankosteus_raja_hyva);
+    }
     // Lämpötila NOK
     if(mtulos->lampotila > rajat->lampotila_raja_huono){
         mtulos->mstatus.status.lampotila_nok = 1;
+        serialLogPari("TEMP NOK: ", mtulos->lampotila, ">", rajat->lampotila_raja_huono);
     }
-    else{mtulos->mstatus.status.lampotila_nok = 0;}
+    else{
+        mtulos->mstatus.status.lampotila_nok = 0;
+        serialLogPari("TEMP ei-huono: ", mtulos->lampotila, "<", rajat->lampotila_raja_huono);
+    }
     // Lämpötila OK
     if(mtulos->lampotila >= rajat->lampotila_raja_hyva){
         mtulos->mstatus.status.lampotila_ok = 1;
+        serialLogPari("TEMP OK: ", mtulos->lampotila, "<", rajat->lampotila_raja_hyva);
     }
-    else{mtulos->mstatus.status.lampotila_ok = 0;}
+    else{
+        mtulos->mstatus.status.lampotila_ok = 0;
+        serialLogPari("TEMP ei-hyvä: ", mtulos->lampotila, "<", rajat->lampotila_raja_hyva);
+    }
+    // Virhetila?
+    if(!SENSORI){
+        mtulos->mstatus.status.ctrl_nok = 1;
+        mtulos->mstatus.status.ctrl_ok = 0;
+        serialLog("VIRHETILA");
+    }
+    else{
+        mtulos->mstatus.status.ctrl_nok = 0;
+        mtulos->mstatus.status.ctrl_ok = 1;
+    }
 }
 
 void paivita_valot_viestiin(mittatulos_t* mtulos, viesti_t* viesti){

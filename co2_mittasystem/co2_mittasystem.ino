@@ -9,8 +9,13 @@
 #include "co2_ui.hpp"
 #include "co2_napit.hpp"
 #include "co2_yksikkotestit.hpp"
+#include "co2_logging.h"
 
-#define SENSORI 1
+// Jos sensori ei ole kiinni tai halutaan muuten vaan testailla, arvo 0
+unsigned char SENSORI = 1;
+
+// Esimerkkitulos
+uint8_t ESIMERKKI_DATA_IN[9] = {0x01, 0xF4, 0x7B, 0x66, 0x67, 0xA2, 0x5E, 0xB9, 0x3C};
 
 // SCD4x
 const int16_t SCD_ADDRESS = 0x62;
@@ -19,6 +24,7 @@ const int16_t SCD_ADDRESS = 0x62;
 
 /* Testimoodi, katso toimiiko kaikki */
 void testi(){
+    serialLog("TESTI START");
     viesti_t* viesti = uusi_viesti();
     testaa_statusvalot(viesti);
     testaa_segmentit(viesti);
@@ -26,11 +32,14 @@ void testi(){
     testaa_numerotulostus(viesti);
     // Valmis
     tuhoa_viesti(viesti);
+    serialLog("TESTI END");
     return;
 }
 
 void setup() {
+    setLogging();
     aseta_pinnitilat();
+    serialLog("CO2");
     if(SENSORI){
         // I2C alustus
         Wire.begin();
@@ -40,23 +49,22 @@ void setup() {
         Wire.beginTransmission(SCD_ADDRESS);
         Wire.write(0x21);
         Wire.write(0xb1);
-        Wire.endTransmission();
-
-        // Odotetaan ensimmäistä mittausta, tehdään vaikka testi odotellessa
-        testi();
+        if(Wire.endTransmission()){
+            serialLog("EI SENSORIA");
+            // Virhe laitteen kanssa, mennään debug-moodiin
+            SENSORI = 0;
+            testi();
+        }
+        else{
+            // Odotetaan ensimmäistä mittausta, tehdään vaikka testi odotellessa
+            serialLog("Sensori käytössä");
+            testi();
+        }
     }
 }
 
 
 void loop() {
-    /* Testimoodi */
-    if(!SENSORI){
-        while(1){
-            testi();
-        }
-    }
-    
-    /* Normaalimoodi */
     unsigned char painettu_nappi;
     ioexp_porttisuunta(0xFF); // kaikki sisääntuloja
     ioexp_out(0x00);
@@ -68,29 +76,51 @@ void loop() {
     
     // Tulos- ja statuswrapperi
     mittatulos_t* mittatulos = uusi_mittatulos();
-    
     uint16_t moodi = MOODI_NORMAALI;
     
-    uint8_t data_in[12], laskuri;
+    uint8_t data_in[9], laskuri;
+    // CTRL punaisena jos ei sensoria
+    // ja käytetään mittatuloksena esimerkkitulosta
+    if(!SENSORI){
+        mittatulos->mstatus.status.ctrl_ok = 0;
+        mittatulos->mstatus.status.ctrl_nok = 1;
+        for(char i=0; i<9; i++){
+          data_in[i] = ESIMERKKI_DATA_IN[i];
+          }
+    }
     uint16_t aikaa;
     while(1){
-      // Pyydä mittaustulosta
-      Wire.beginTransmission(SCD_ADDRESS);
-      Wire.write(0xec);
-      Wire.write(0x05);
-      Wire.endTransmission();
-
-      // Lue data sensorilta
-      Wire.requestFrom(SCD_ADDRESS, 12);
-      laskuri = 0;
-      while (Wire.available()) {
-          data_in[laskuri++] = Wire.read();
+      if(SENSORI){
+          serialLog("Sensori käytettävissä");
+          // Pyydä mittaustulosta
+          Wire.beginTransmission(SCD_ADDRESS);
+          Wire.write(0xec);
+          Wire.write(0x05);
+          if(!Wire.endTransmission()){
+              // Lue data sensorilta
+              Wire.requestFrom(SCD_ADDRESS, 9);
+              laskuri = 0;
+              while (Wire.available()) {
+                  data_in[laskuri++] = Wire.read();
+              }
+          }
+          else{
+              // Laite ei enää vastaa
+              serialLog("Sensori lakkasi vastaamasta!");
+              SENSORI = 0;
+              mittatulos->mstatus.status.ctrl_ok = 0;
+              mittatulos->mstatus.status.ctrl_nok = 1;
+              for(char i=0; i<9; i++){
+                data_in[i] = ESIMERKKI_DATA_IN[i];
+                }
+          }
       }
+
       // Tulokset inee
       paivita_mittatulos(mittatulos, data_in);
       paivita_mittastatus(mittatulos, rajat);
       paivita_valot_viestiin(mittatulos, viesti);
-  
+
       tulosta_valot(viesti);
       aikaa = 0;
       while(aikaa < 5000){
