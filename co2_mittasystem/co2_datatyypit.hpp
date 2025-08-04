@@ -6,7 +6,7 @@ koska alkoi olla inosssa täyttä...
 #define SIENIMITTARI_TYYPIT
 
 #include <stdint.h>
-#include "co2_logging.h"
+#include "co2_logging.hpp"
 
 #define HIDASTUS 0
 
@@ -19,7 +19,7 @@ koska alkoi olla inosssa täyttä...
 #define SSEG_G 1<<6
 #define SSEG_DP 1<<7
 
-#define SSEG_NULL 0xFF
+#define SSEG_NULL 0x00
 #define SSEG_0 (0xFF^(SSEG_G|SSEG_DP))
 #define SSEG_1 (SSEG_B|SSEG_C)
 #define SSEG_2 (SSEG_A|SSEG_B|SSEG_G|SSEG_E|SSEG_D)
@@ -145,7 +145,9 @@ enum Statukset {
     STATUS_ILMANKOSTEUS_NOK = 1<<2,
     STATUS_ILMANKOSTEUS_OK = 1<<3,
     STATUS_LAMPOTILA_NOK = 1<<4,
-    STATUS_LAMPOTILA_OK = 1<<5
+    STATUS_LAMPOTILA_OK = 1<<5,
+    STATUS_CTRL_NOK = 1<<6,
+    STATUS_CTRL_OK = 1<<7
 };
 
 

@@ -31,8 +31,7 @@ uint16_t tulosta_lukua(uint16_t arvo, viesti_t* viesti, uint16_t aikaa){
 
 /* Tulosta lukuarvo (0-9999) ruudulle, pidä merkkivalot ennallaan */
 unsigned char tulosta_arvo(uint16_t arvo, viesti_t* viesti){
-    // Tuhannet jos läsnä
-    unsigned char aikaa = 0; // ei loputtomiin
+    unsigned char aikaa = 0;
     // Aloita tuhansista
     unsigned char dig_arvo = (unsigned char)(arvo/1000)%10;
     // Ei-nolla, eli jotain lähetettävää (ei esim. 0012 vaan 12)
@@ -72,6 +71,7 @@ unsigned char tulosta_arvo(uint16_t arvo, viesti_t* viesti){
 }
 
 void tyhjaa_ruutu(viesti_t* viesti){
+    viesti->kentat.numero = SSEG_NULL;
     viesti->kentat.digit_no = DIG_NULL;
     laheta_viesti(viesti);
 }

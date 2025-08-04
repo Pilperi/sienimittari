@@ -3,6 +3,14 @@
 unsigned char SERIAL_AVAIL = 0;
 
 char setLogging(){
+    Serial.begin(9600);
+    for(char i=0; i<100; i++){
+      if(Serial){
+        SERIAL_AVAIL = 1;
+        return(0);
+        }
+      delay(10);
+    }
     SERIAL_AVAIL = 0;
     return(1);
 }
@@ -20,11 +28,16 @@ void binstr(unsigned char lukuarvo, char* str){
 }
 
 void serialLog(const char* viesti){
-    // Dummy
-    return;
+    // Ei sarjaporttia käytössä
+    if(!SERIAL_AVAIL){return;}
+    if(!Serial){setLogging();}
+    Serial.println(viesti);
 }
 
 void serialLogPari(const char* alkuteksti, int luku1, const char* valiteksti, int luku2){
-    // Dummy
-    return;
+    // Ei sarjaporttia käytössä
+    if(!SERIAL_AVAIL){return;}
+    if(!Serial){setLogging();}
+    Serial.printf(alkuteksti);
+    Serial.printf("%d %s %d\n", luku1, valiteksti, luku2);
 }

@@ -109,7 +109,7 @@ void paivita_mittastatus(mittatulos_t* mtulos, rajat_t* rajat){
         serialLogPari("TEMP ei-huono: ", mtulos->lampotila, "<", rajat->lampotila_raja_huono);
     }
     // Lämpötila OK
-    if(mtulos->lampotila >= rajat->lampotila_raja_hyva){
+    if(mtulos->lampotila <= rajat->lampotila_raja_hyva){
         mtulos->mstatus.status.lampotila_ok = 1;
         serialLogPari("TEMP OK: ", mtulos->lampotila, "<", rajat->lampotila_raja_hyva);
     }

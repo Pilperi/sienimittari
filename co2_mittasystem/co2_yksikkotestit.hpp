@@ -7,7 +7,7 @@
 #include "co2_datatyypit.hpp"
 #include "co2_kommunikointi.hpp"
 
-#define TESTIAIKA 500
+#define TESTIAIKA 100
 
 void testaa_statusvalot(viesti_t*);
 void testaa_numerokentat(viesti_t*);

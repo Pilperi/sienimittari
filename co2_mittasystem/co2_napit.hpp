@@ -13,10 +13,19 @@ Nappien operointi
 #define NAPPI_LAMPOTILA 1<<3
 #define NAPPI_KOSTEUS   1<<4
 #define NAPPI_CO2       1<<5
-#define NAPPI_OK        1<<6
-#define NAPPI_CANCEL    1<<7
+#define NAPPI_CANCEL    1<<6
+#define NAPPI_OK        1<<7
 
-/* Tulkitse miten operointimoodin pitäisi muuttua kun nappia painetaan */
-uint16_t tulkitse_painallus(unsigned char, uint16_t);
+/* Nappimuutosten kirjanpito */
+typedef struct nappi_muutos_t {
+        unsigned char uusi_painallus;
+        unsigned char edellinen_painallus;
+        unsigned char muutokset_alas;
+        unsigned char muutokset_ylos;
+        unsigned char muutokset;
+}nappi_muutos_t;
+
+/* Tarkista mihin suuntaan muutokset tapahtui */
+void tarkista_muutokset(nappi_muutos_t*);
 
 #endif

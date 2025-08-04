@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include "co2_datatyypit.hpp"
+#include "co2_napit.hpp"
 
 #define NAYTTOTAAJUUS 1
 #define RAJA_ASKEL_CO2 10
@@ -33,6 +34,7 @@ enum NappiMoodit {
     MOODI_TALLENNA   = 1<<8
 };
 
+uint16_t tulkitse_painallus(nappi_muutos_t*, uint16_t);
 uint16_t ui_mainflow(uint16_t, viesti_t*, mittatulos_t*, rajat_t*, uint16_t*);
 uint16_t muokkaa_rajoja(uint16_t, rajat_t*);
 #endif
