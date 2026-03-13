@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/co2_mittasystem/include/**",
+                "/usr/lib/avr/include/**"
+            ],
+            "defines": [
+                "__AVR_ARCH__ 25",
+                "__AVR_ATtiny85__"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerArgs": [
+                "-I include/attiny_i2c"
+            ]
+        }
+    ],
+    "version": 4
+}
