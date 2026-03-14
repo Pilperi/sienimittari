@@ -2,7 +2,9 @@
 #include <avr/pgmspace.h> 
 #include "merkkivalot.h"
 #include "shiftreg.h"
-#include <util/delay.h>
+#include "timing.h"
+
+extern uint8_t TIMER_COUNT;
 
 // Numerot 0-9 seitsensegmentteinä, esim.
 // SSEG_NUMERO[3] palauttaa SSEG_3
@@ -18,13 +20,39 @@ const uint8_t SSEG_NUMERO[10] = {
   ~SSEG_8,
   ~SSEG_9
 };
+const uint8_t SSEG_AJAT_PAALLA[10] = {
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+};
+const uint8_t SSEG_AJAT_POIS[10] = {
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+  200,
+};
 
 /* Tulosta lukuarvo (0-9999) ruudulle, pidä merkkivalot ennallaan */
 void tulosta_arvo(uint16_t arvo, shiftreg_viesti_t* viesti_p){
     const uint16_t kymmenet[3] = {1000, 100, 10};
     uint8_t laskuri;
     uint8_t luku_aiemmin = 0;
-    viesti_p->kentat.statusvalot = 0x00; // Häiritsee
+    viesti_p->tavut.tavut_l = 0;
+    viesti_p->tavut.tavut_m = 0;
+    viesti_p->tavut.tavut_h = 0;
     // Tuhannet, sadat, kymmenet
     for (register uint8_t dig=0; dig < 3; dig++)
     {
@@ -39,18 +67,29 @@ void tulosta_arvo(uint16_t arvo, shiftreg_viesti_t* viesti_p){
             viesti_p->kentat.digit_no = 1<<dig;
             viesti_p->kentat.numero = SSEG_NUMERO[laskuri];
             shiftreg_laheta_viesti(viesti_p, 0);
-            _delay_ms(6);
-            tyhjaa_ruutu(viesti_p);
             luku_aiemmin |= 1;
         }
+        TIMER_COUNT = 1;
+        timing_delay_set(100, 100);
+        while (TIMER_COUNT)
+        {
+            __asm__("sei");
+            __asm__("sleep");
+        }
+        tyhjaa_ruutu(viesti_p);
     }
     // Yhdet enää jäljellä, näytetään aina
+    viesti_p->kentat.digit_no = 1<<3;
+    viesti_p->kentat.numero = SSEG_NUMERO[(uint8_t)arvo];
+    shiftreg_laheta_viesti(viesti_p, 0);
+    TIMER_COUNT = 1;
+    timing_delay_set(100, 100);
+    while (TIMER_COUNT)
     {
-        viesti_p->kentat.digit_no = 1<<3;
-        viesti_p->kentat.numero = SSEG_NUMERO[(uint8_t)arvo];
-        shiftreg_laheta_viesti(viesti_p, 0);
-        _delay_ms(6);
+        __asm__("sei");
+        __asm__("sleep");
     }
+    tyhjaa_ruutu(viesti_p);
 }
 
 void tyhjaa_ruutu(shiftreg_viesti_t* viesti){
