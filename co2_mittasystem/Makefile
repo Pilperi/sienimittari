@@ -71,13 +71,14 @@ S_OBJECTS := $(addprefix $(KOHDEKANSIO)/,$(S_FILENAMES:%.S=%.S.o))
 O_OBJECTS_FROM_C = $(KOHDEKANSIO)/main.o $(KOHDEKANSIO)/shiftreg.o $(KOHDEKANSIO)/merkkivalot.o $(KOHDEKANSIO)/timing.o
 O_OBJECTS_FROM_S = $(KOHDEKANSIO)/isr.o $(KOHDEKANSIO)/init.o
 # Kirjastot jotka otetaan mukaan
-LIBS = include/attiny_i2c/libattiny_i2c.a
+LIB_ATTINY_I2C = include/attiny_i2c/libattiny_i2c.a
+LIBS = $(LIB_ATTINY_I2C)
 
 #########################################################################
 .PHONY: newbin
 
 
-all: $(KOHDEKANSIO) newbin $(C_OBJECTS) $(S_OBJECTS) $(KOHDEBIN) $(LINKERSCRIPT)
+all: $(KOHDEKANSIO) newbin $(LIBS) $(C_OBJECTS) $(S_OBJECTS) $(KOHDEBIN) $(LINKERSCRIPT)
 
 
 #########################################################################

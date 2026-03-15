@@ -73,12 +73,15 @@ typedef enum Valinnat {
 
 
 /* Tulosta valot ja annettu lukuarvo (0-9999) ruudulle. Kerro paljon meni aikaa */
-void tulosta_arvo(uint16_t lukuarvo, shiftreg_viesti_t* viesti_p);
+void tulosta_arvo(uint16_t lukuarvo);
 
 /* Tulosta lukua n ms */
-void tulosta_lukua(uint16_t lukuarvo, shiftreg_viesti_t* viesti_p, uint16_t aikaa);
+void tulosta_lukua(uint16_t lukuarvo, uint16_t aikaa);
 
 /* Tyhjennä seitsensegmenttiruutu lukuarvoista */
-void tyhjaa_ruutu(shiftreg_viesti_t* viesti_p);
+void tyhjaa_ruutu();
+
+void isr_timer0_compa(void);
+void isr_timer0_compb(void);
 
 #endif // MERKKIVALOT_H
