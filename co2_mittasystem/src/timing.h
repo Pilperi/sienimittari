@@ -10,5 +10,6 @@
 #define TIMING_CS_1024 ((1<<CS02)|(0<<CS01)|(1<<CS00))
 
 void timing_delay_set(uint8_t aikaa_paalla, uint16_t toistoja);
+void timing_delay_unset(void);
 
 #endif // TIMING_H

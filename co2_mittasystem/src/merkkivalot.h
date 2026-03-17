@@ -71,17 +71,28 @@ typedef enum Valinnat {
     VALINTA_LAMPOTILA = 1<<2
 } valinta_t;
 
+/* Lukuarvon tulostamiseen */
+typedef union {
+    struct status_kentat {
+        uint8_t edellinen : 1;
+        uint8_t digit     : 2;
+        uint8_t nayta     : 1;
+        uint8_t numero    : 4;
+    }status_kentat;
+    uint8_t data;
+}sseg_status_t;
 
-/* Tulosta valot ja annettu lukuarvo (0-9999) ruudulle. Kerro paljon meni aikaa */
-void tulosta_arvo(uint16_t lukuarvo);
+/* Tee pilkottu versio numeroarvosta */
+void merkkivalot_pilko_numero(uint16_t arvo);
 
-/* Tulosta lukua n ms */
-void tulosta_lukua(uint16_t lukuarvo, uint16_t aikaa);
+/* Tulosta valot ja annettu lukuarvo (0-9999) ruudulle.
+Lukee arvon `merkkivalot_pilko_numero` tuloksesta. */
+void merkkivalot_tulosta_arvo(void);
+
+void merkkivalot_tulosta_arvoa(uint16_t arvo, uint16_t aikaa);
 
 /* Tyhjennä seitsensegmenttiruutu lukuarvoista */
 void tyhjaa_ruutu();
 
-void isr_timer0_compa(void);
-void isr_timer0_compb(void);
 
 #endif // MERKKIVALOT_H
