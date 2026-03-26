@@ -1,5 +1,6 @@
 #include "merkkivalot.h"
 #include "shiftreg.h"
+#include "ioexp.h"
 #include <stdint.h>
 #include <util/delay.h>
 
@@ -17,17 +18,14 @@ void main(void)
     uint8_t merkkivalot[] = {2<<0, 2<<2, 2<<4, 2<<6};
     shiftreg_laheta_viesti(&VIESTI_OBJ, 1);
     uint8_t luku = 0;
+    uint8_t arvo;
+    ioexp_porttisuunta(0, 0xFF);
     for(;;)
     {
         VIESTI_OBJ.kentat.statusvalot = merkkivalot[luku];
         shiftreg_laheta_viesti(&VIESTI_OBJ, 1);
-        merkkivalot_tulosta_arvoa(luvut[luku], 100);
+        arvo = ioexp_lue(0);
+        merkkivalot_tulosta_arvoa(arvo, 100);
         tyhjaa_ruutu();
-        _delay_ms(500);
-        luku++;
-        if (luku > 3)
-        {
-            luku = 0;
-        }
     }
 }

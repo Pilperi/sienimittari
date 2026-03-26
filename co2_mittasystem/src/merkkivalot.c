@@ -60,8 +60,6 @@ void merkkivalot_pilko_numero(uint16_t arvo)
 
 /* Tulosta lukuarvo (0-9999) ruudulle, pidä merkkivalot ennallaan */
 void merkkivalot_tulosta_arvo(void){
-    //if(TOISTOJA){return;}
-    //TOISTOJA = TOISTOJA_REF;
     if(MERKKIVALOT_STATUS.status_kentat.nayta)
     {
         // Ei näytetä alun nollia, mutta näytetään aina ykkösten arvo

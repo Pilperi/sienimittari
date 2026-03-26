@@ -68,7 +68,7 @@ C_OBJECTS := $(addprefix $(KOHDEKANSIO)/,$(C_FILENAMES:%.c=%.c.o))
 S_OBJECTS := $(addprefix $(KOHDEKANSIO)/,$(S_FILENAMES:%.S=%.S.o))
 
 # Mitkä tulokset otetaan C-koodista ja mitkä assemblystä
-O_OBJECTS_FROM_C = $(KOHDEKANSIO)/main.o $(KOHDEKANSIO)/shiftreg.o $(KOHDEKANSIO)/merkkivalot.o $(KOHDEKANSIO)/timing.o
+O_OBJECTS_FROM_C = $(KOHDEKANSIO)/main.o $(KOHDEKANSIO)/shiftreg.o $(KOHDEKANSIO)/merkkivalot.o $(KOHDEKANSIO)/timing.o $(KOHDEKANSIO)/ioexp.o
 O_OBJECTS_FROM_S = $(KOHDEKANSIO)/isr.o $(KOHDEKANSIO)/init.o
 # Kirjastot jotka otetaan mukaan
 LIB_ATTINY_I2C = include/attiny_i2c/libattiny_i2c.a
